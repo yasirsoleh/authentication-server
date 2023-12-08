@@ -1,0 +1,32 @@
+version: "3"
+
+volumes:
+  postgres_data:
+    driver: local
+
+services:
+  postgres:
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: ${POSTGRES_USER:?error}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?error}
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    environment:
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:?error}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres/keycloak
+      KC_DB_USERNAME: ${POSTGRES_USER:?error}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD:?error}
+      KC_HTTP_ENABLED: false
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:?error}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?error}
+      PROXY_ADDRESS_FORWARDING: "true"
+    command: "start"
+    ports:
+      - ${KEYCLOAK_HTTPS_PORT:?error}:8443
+    depends_on:
+      - postgres
