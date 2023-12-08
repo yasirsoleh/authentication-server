@@ -6,7 +6,7 @@ volumes:
 
 services:
   postgres:
-    image: postgres:16
+    image: docker.io/postgres:16
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
@@ -14,7 +14,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:?error}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?error}
   keycloak:
-    image: quay.io/keycloak/keycloak:23.0
+    image: docker.io/keycloak/keycloak:23.0
     environment:
       KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:?error}
       KC_DB: postgres
