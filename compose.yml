@@ -15,10 +15,10 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?error}
   keycloak:
     image: docker.io/keycloak/keycloak:23.0
-    entrypoint: /opt/keycloak/bin/kc.sh start --proxy edge --hostname-strict-https=false
+    entrypoint: /opt/keycloak/bin/kc.sh start --proxy edge
     environment:
       KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:?error}
-      KC_HOSTNAME_ADMIN: ${KEYCLOAK_HOSTNAME_ADMIN}
+      KC_HOSTNAME_STRICT_HTTPS: "false"
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres/keycloak
       KC_DB_USERNAME: ${POSTGRES_USER:?error}
@@ -28,7 +28,6 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?error}
       PROXY_ADDRESS_FORWARDING: "true"
     ports:
-      - ${KEYCLOAK_HTTPS_PORT:?error}:8443
       - ${KEYCLOAK_HTTP_PORT:?error}:8080
     depends_on:
       - postgres
