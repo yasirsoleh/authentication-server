@@ -21,12 +21,13 @@ services:
       KC_DB_URL: jdbc:postgresql://postgres/keycloak
       KC_DB_USERNAME: ${POSTGRES_USER:?error}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD:?error}
-      KC_HTTP_ENABLED: false
+      KC_HTTP_ENABLED: true
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:?error}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?error}
       PROXY_ADDRESS_FORWARDING: "true"
     command: "start"
     ports:
       - ${KEYCLOAK_HTTPS_PORT:?error}:8443
+      - ${KEYCLOAK_HTTP_PORT:?error}:8080
     depends_on:
       - postgres
