@@ -13,6 +13,8 @@ services:
       POSTGRES_DB: keycloak
       POSTGRES_USER: ${POSTGRES_USER:?error}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?error}
+    ports:
+      - ${POSTGRES_EXTERNAL_PORT:?error}:5432
   keycloak:
     image: docker.io/keycloak/keycloak:23.0
     entrypoint: /opt/keycloak/bin/kc.sh start --proxy edge
