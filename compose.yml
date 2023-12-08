@@ -18,6 +18,7 @@ services:
     entrypoint: /opt/keycloak/bin/kc.sh start --proxy edge --hostname-strict-https=false
     environment:
       KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:?error}
+      KC_HOSTNAME_ADMIN: ${KEYCLOAK_HOSTNAME_ADMIN}
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres/keycloak
       KC_DB_USERNAME: ${POSTGRES_USER:?error}
