@@ -14,7 +14,7 @@ services:
   keycloak:
     image: docker.io/keycloak/keycloak:23.0
     restart: always
-    entrypoint: /opt/keycloak/bin/kc.sh start --proxy edge
+    command: bash -c "/opt/keycloak/bin/kc.sh start --proxy edge"
     environment:
       KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:?error}
       KC_HOSTNAME_STRICT_HTTPS: "false"
