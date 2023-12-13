@@ -3,7 +3,6 @@ version: "3"
 services:
   postgres:
     image: docker.io/postgres:16-alpine
-    restart: always
     volumes:
       - ./postgres_data:/var/lib/postgresql/data:Z
     environment:
@@ -13,8 +12,7 @@ services:
     userns_mode: keep-id
   keycloak:
     image: docker.io/keycloak/keycloak:23.0
-    restart: always
-    command: bash -c "/opt/keycloak/bin/kc.sh start --proxy edge"
+    entrypoint: /opt/keycloak/bin/kc.sh start
     environment:
       KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:?error}
       KC_HOSTNAME_STRICT_HTTPS: "false"
@@ -23,6 +21,7 @@ services:
       KC_DB_USERNAME: ${POSTGRES_USER:?error}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD:?error}
       KC_HTTP_ENABLED: "true"
+      KC_PROXY: "edge"
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:?error}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?error}
       PROXY_ADDRESS_FORWARDING: "true"
