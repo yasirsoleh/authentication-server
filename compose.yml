@@ -10,9 +10,10 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:?error}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?error}
     userns_mode: keep-id
+    restart: always
   keycloak:
-    image: docker.io/keycloak/keycloak:23.0
-    command: start
+    image: docker.io/keycloak/keycloak:22.0
+    entrypoint: /opt/keycloak/bin/kc.sh start
     environment:
       KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:?error}
       KC_HOSTNAME_STRICT_HTTPS: "false"
@@ -29,3 +30,4 @@ services:
       - ${KEYCLOAK_HTTP_PORT:?error}:8080
     depends_on:
       - postgres
+    restart: always
